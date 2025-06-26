@@ -1,10 +1,16 @@
-name: Deploy website
+name: Deployment
 on:
   push:
     branches:
       - master
+      - dev
+env:
+  REACT_APP_ENVIRONMENT: gha-demo-environment
 jobs:
   test:
+    env:
+      REACT_APP_API_URL: gha-demo-url
+      REACT_APP_VERSION: gha-demo-version
     runs-on: ubuntu-latest
     steps:
       - name: Get code
@@ -20,6 +26,11 @@ jobs:
         run: npm run lint
       - name: Test code
         run: npm run test
+      - name: Printing env variables
+        run: |
+          echo "$REACT_APP_ENVIRONMENT"
+          echo "$REACT_APP_API_URL"
+          echo "${{env.REACT_APP_VERSION}}"
   build:
     needs: test
     runs-on: ubuntu-latest
@@ -45,6 +56,11 @@ jobs:
         with:
           name: build-files
           path: build
+      - name: Printing env variables
+        run: |
+          echo "$REACT_APP_ENVIRONMENT"
+          echo "$REACT_APP_API_URL"
+          echo "${{env.REACT_APP_VERSION}}"
   deploy:
     needs: build
     runs-on: ubuntu-latest
