@@ -9,8 +9,8 @@ env:
 jobs:
   test:
     env:
-      REACT_APP_API_URL: gha-demo-url
-      REACT_APP_VERSION: gha-demo-version
+      REACT_APP_API_URL: ${{secrets.REACT_APP_API_URL}}
+      REACT_APP_VERSION: ${{secrets.REACT_APP_VERSION}}
     runs-on: ubuntu-latest
     steps:
       - name: Get code
